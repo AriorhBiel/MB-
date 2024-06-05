@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">{{ tb_name }}</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/record">Записи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/note/date">Напоминания</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    {% for row in title.values %}
+                        {% if row == 'user' %}
+                            {{ pass }}
+                        {% elif row == 'record' %}
+                            <th scope="col">
+                                Запись
+                            </th>
+                        {% else %}
+                        <th scope="col">
+                            {{ row }}
+                        </th>
+                        {% endif %}
+                    {% endfor %}
+                    <th>
+                        <div class="d-flex justify-content-center dropdown">
+                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                Создать
+                            </a>
+                            <div class="dropdown-menu p-3">
+                                <form id="form_create">
+                                    {% for field in form %}
+                                    <div class="form-floating my-4">
+                                        {{ field }}
+                                    </div>
+                                    {% endfor %}
+                                    <button type="button" class="btn btn-light add_item">Создать</button>
+                                </form>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table %}
+                <tr id="{{ row.id }}">
+                    {% for k, v in row.items %}
+                        {% if k == 'user' %}
+                            {{ pass }}
+                        {% else %}
+                            <td scope="row">
+                                {{ v }}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <div class="dropdown me-1">
+                                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Изменить
+                                </a>
+                                
+                                <div class="dropdown-menu p-3">
+                                    <form class="form_ed">
+                                        {% for field in form %}
+                                        <div class="form-floating my-4">
+                                            {{ field }}
+                                        </div>
+                                        {% endfor %}
+                                        <button type="button" class="btn btn-light edit_item">Изменить</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <form class="form_del">
+                                <button type="button" class="btn btn-danger del_item">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+{% endblock %}
