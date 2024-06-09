@@ -4,22 +4,7 @@ $(document).ready(function () {
     // получение пути
     const pathname = window.location.pathname.slice(6);
 
-    function clearForms() {
-        // для input
-        $('#forms').trigger('reset');
-
-        // чистит все атритубы selected == selected
-        selectClear = $('#forms').find('select');
-        for (let i = 0; i < selectClear.length; i++) {
-            for (const option of selectClear[i].children) {
-                if (option.getAttribute('selected') === 'selected') {
-                    option.removeAttribute('selected');
-                }
-            }
-        }
-    }
-
-    function method_ajax(form, methodAjax, td_id) {
+    function method_ajax(form, methodAjax, add_path) {
 
         if (!form.valid()) {
             return false;
@@ -39,7 +24,7 @@ $(document).ready(function () {
                 }
                 json_map.set('id', tr_id.attr('id'))
             }
-
+            
             if ("DELETE" === methodAjax) {
                 var tr_id = $(form)
                 for (var i=0; i<3; i++){
@@ -50,7 +35,7 @@ $(document).ready(function () {
 
 
             $.ajax({
-                url: pathname,
+                url: pathname + add_path,
                 type: methodAjax,
                 dataType : 'json',
 
@@ -58,7 +43,6 @@ $(document).ready(function () {
 
                 contentType: 'application/json;charset=UTF-8',
                 success: function (response) {
-                    clearForms();
                     location.reload();
                 },
                 error: function (response) {
@@ -71,17 +55,17 @@ $(document).ready(function () {
     };
 
     $('#form_create').on('click', '.add_item', function () {
-        method_ajax($(this).parent(), "POST");
+        method_ajax($(this).parent(), "POST", '/post');
         return false
     });
 
     $('.form_ed').on('click', '.edit_item', function () {
-        method_ajax($(this).parent(), "PUT");
+        method_ajax($(this).parent(), "PUT", '/put');
         return false
     });
 
     $('.form_del').on('click', '.del_item', function () {
-        method_ajax($(this).parent(), "DELETE");
+        method_ajax($(this).parent(), "DELETE", '/del');
         return false
     });
 });
