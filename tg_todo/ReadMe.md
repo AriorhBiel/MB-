@@ -1,4 +1,4 @@
-## В папке `tg_todo`
+## В папке `tg_todo` (где docker-файлы)
 
 ### Linux
 `docker compose build` - собрать проект
